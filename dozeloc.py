@@ -24,6 +24,7 @@ class DozelocUI(tk.Frame):
                               command=self.master.destroy)
         self.quit.pack(side="bottom")
         self.fc = self.create_file_chooser(self, "Input File")
+        self.fc.pack(side="right")
 
     def create_file_chooser(self, parent, text):
         frame = ttk.Frame(parent)
