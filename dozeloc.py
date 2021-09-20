@@ -40,9 +40,10 @@ class DozelocUI(tk.Frame):
         print("hi there, everyone!")
 
 if __name__ == "__main__":
-    #root = tk.Tk()
-    #app = DozelocUI(master=root)
-    #app.mainloop()
+    root = tk.Tk()
+    app = DozelocUI(master=root)
+    app.mainloop()
+    exit(1)
     initialdir = Path("/home/cslz90/Documents/Lehre/GDI-BiM/bimgdi-cs/2019_wise/uebungen/dozentron")
     test_file = tkfd.askopenfilename(title="Test file", filetypes=[("python code", "*.py")], initialdir=initialdir)
     test_file = Path(test_file)
