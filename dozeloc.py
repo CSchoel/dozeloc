@@ -27,9 +27,9 @@ class DozelocUI(tk.Frame):
 
     def create_file_chooser(self, parent, text):
         frame = ttk.Frame(parent)
-        label = ttk.Label(f, text=text)
-        entry = ttk.Entry(f)
-        button = ttk.Button(f, text="Browse..")
+        label = ttk.Label(frame, text=text)
+        entry = ttk.Entry(frame)
+        button = ttk.Button(frame, text="Browse..")
         label.grid(column=0, row=0)
         entry.grid(column=1, row=0)
         button.grid(column=2, row=0)
