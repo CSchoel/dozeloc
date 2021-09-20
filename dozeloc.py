@@ -7,7 +7,7 @@ import sys
 import subprocess
 import os
 
-class DozelocUI(tk.Frame):
+class DozelocUI(ttk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
@@ -15,12 +15,12 @@ class DozelocUI(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        self.hi_there = tk.Button(self)
+        self.hi_there = ttk.Button(self)
         self.hi_there["text"] = "Hello World\n(click me)"
         self.hi_there["command"] = self.say_hi
         self.hi_there.pack(side="top")
 
-        self.quit = tk.Button(self, text="QUIT", fg="red",
+        self.quit = ttk.Button(self, text="QUIT",
                               command=self.master.destroy)
         self.quit.pack(side="bottom")
         self.fc = FileChooser(self)
