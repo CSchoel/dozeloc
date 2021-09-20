@@ -23,7 +23,7 @@ class DozelocUI(tk.Frame):
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
         self.quit.pack(side="bottom")
-        self.fc = self.create_file_chooser(self, "Input File")
+        self.fc = FileChooser(self)
         self.fc.pack(side="right")
 
     def create_file_chooser(self, parent, text):
@@ -38,6 +38,17 @@ class DozelocUI(tk.Frame):
 
     def say_hi(self):
         print("hi there, everyone!")
+
+class FileChooser(ttk.Frame):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.parent = parent
+        self.create_widgets()
+    def create_widgets(self):
+        entry = ttk.Entry(self)
+        button = ttk.Button(self, text="Browse..")
+        entry.grid(column=0, row=0)
+        button.grid(column=1, row=0)
 
 if __name__ == "__main__":
     root = tk.Tk()
