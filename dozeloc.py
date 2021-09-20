@@ -1,5 +1,6 @@
 import unittest
 import tkinter as tk
+import tkinter.ttk as ttk
 import tkinter.filedialog as tkfd
 from pathlib import Path
 import sys
@@ -22,6 +23,17 @@ class DozelocUI(tk.Frame):
         self.quit = tk.Button(self, text="QUIT", fg="red",
                               command=self.master.destroy)
         self.quit.pack(side="bottom")
+        self.fc = self.create_file_chooser(self, "Input File")
+
+    def create_file_chooser(self, parent, text):
+        frame = ttk.Frame(parent)
+        label = ttk.Label(f, text=text)
+        entry = ttk.Entry(f)
+        button = ttk.Button(f, text="Browse..")
+        label.grid(column=0, row=0)
+        entry.grid(column=1, row=0)
+        button.grid(column=2, row=0)
+        return frame
 
     def say_hi(self):
         print("hi there, everyone!")
