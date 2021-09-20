@@ -15,16 +15,23 @@ class DozelocUI(ttk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        self.hi_there = ttk.Button(self)
-        self.hi_there["text"] = "Hello World\n(click me)"
-        self.hi_there["command"] = self.say_hi
-        self.hi_there.pack(side="top")
+        self.exercise_chooser = ttk.Combobox(self)
+        self.exercise_label = ttk.Label(self, text="Exercise")
+        self.solution_label = ttk.Label(self, text="Solution file")
+        self.solution_chooser = FileChooser(self)
+        self.check_button = ttk.Button(self, text="Check!")
+        self.result = tk.Text(self)
 
-        self.quit = ttk.Button(self, text="QUIT",
-                              command=self.master.destroy)
-        self.quit.pack(side="bottom")
-        self.fc = FileChooser(self)
-        self.fc.pack(side="right")
+        self.exercise_label.grid(row=0, column=0)
+        self.exercise_chooser.grid(row=0, column=1)
+        self.solution_label.grid(row=1, column=0)
+        self.solution_chooser.grid(row=1, column=1)
+        self.check_button.grid(row=2, column=0, columnspan=2)
+        self.result.grid(row=3, column=0, columnspan=2)
+
+        # self.quit = ttk.Button(self, text="QUIT",
+        #                       command=self.master.destroy)
+        # self.quit.pack(side="bottom")
 
     def create_file_chooser(self, parent, text):
         frame = ttk.Frame(parent)
