@@ -28,6 +28,8 @@ class DozelocUI(ttk.Frame):
         self.solution_chooser.grid(row=1, column=1)
         self.check_button.grid(row=2, column=0, columnspan=2)
         self.result.grid(row=3, column=0, columnspan=2)
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=3)
 
         # self.quit = ttk.Button(self, text="QUIT",
         #                       command=self.master.destroy)
