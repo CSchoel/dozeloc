@@ -23,9 +23,9 @@ class DozelocUI(ttk.Frame):
         self.result = tk.Text(self)
 
         self.exercise_label.grid(row=0, column=0)
-        self.exercise_chooser.grid(row=0, column=1)
+        self.exercise_chooser.grid(row=0, column=1, sticky="EW")
         self.solution_label.grid(row=1, column=0)
-        self.solution_chooser.grid(row=1, column=1)
+        self.solution_chooser.grid(row=1, column=1, sticky="EW")
         self.check_button.grid(row=2, column=0, columnspan=2)
         self.result.grid(row=3, column=0, columnspan=2)
         self.grid_columnconfigure(0, weight=1)
@@ -34,7 +34,6 @@ class DozelocUI(ttk.Frame):
         # self.quit = ttk.Button(self, text="QUIT",
         #                       command=self.master.destroy)
         # self.quit.pack(side="bottom")
-
 
     def say_hi(self):
         print("hi there, everyone!")
@@ -47,8 +46,11 @@ class FileChooser(ttk.Frame):
     def create_widgets(self):
         entry = ttk.Entry(self)
         button = ttk.Button(self, text="Browse..")
-        entry.grid(column=0, row=0)
-        button.grid(column=1, row=0)
+        entry.grid(column=0, row=0, sticky="EWNS")
+        button.grid(column=1, row=0, sticky="NS")
+        self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=0)
+
 
 if __name__ == "__main__":
     root = tk.Tk()
