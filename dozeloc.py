@@ -19,7 +19,7 @@ class DozelocUI(ttk.Frame):
         self.exercise_label = ttk.Label(self, text="Exercise")
         self.solution_label = ttk.Label(self, text="Solution file")
         self.solution_chooser = FileChooser(self)
-        self.check_button = ttk.Button(self, text="Check!")
+        self.check_button = ttk.Button(self, text="Check!", command=self.check)
         self.result = tk.Text(self)
 
         self.exercise_label.grid(row=0, column=0)
@@ -34,8 +34,7 @@ class DozelocUI(ttk.Frame):
         # self.quit = ttk.Button(self, text="QUIT",
         #                       command=self.master.destroy)
         # self.quit.pack(side="bottom")
-
-    def say_hi(self):
+    def check(self):
         print("hi there, everyone!")
 
 class FileChooser(ttk.Frame):
