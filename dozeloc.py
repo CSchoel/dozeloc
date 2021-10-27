@@ -8,14 +8,20 @@ import subprocess
 import os
 
 class DozelocUI(ttk.Frame):
-    def __init__(self, master=None):
+    def __init__(self, master=None, exdir=Path(".")):
         super().__init__(master)
         self.master = master
         self.pack()
+        self.exdir = Path(exdir)
         self.create_widgets()
 
+    def exercises(self, exdir):
+        # find folders which contain a folder called "test"
+        exercises = [x for x in exdir.iterdir() if x.is_dir() and (x / "test").is_dir()]
+        return sorted([x.name for x in exercises])
+
     def create_widgets(self):
-        self.exercise_chooser = ttk.Combobox(self)
+        self.exercise_chooser = ttk.Combobox(self, values=self.exercises(self.exdir))
         self.exercise_label = ttk.Label(self, text="Exercise")
         self.solution_label = ttk.Label(self, text="Solution file")
         self.solution_chooser = FileChooser(self)
@@ -53,7 +59,8 @@ class FileChooser(ttk.Frame):
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = DozelocUI(master=root)
+    exdir = Path("/home/cslz90/Documents/Lehre/GDI-BiM/bimgdi-cs/2019_wise/uebungen/dozentron")
+    app = DozelocUI(master=root, exdir=exdir)
     app.mainloop()
     exit(1)
     initialdir = Path("/home/cslz90/Documents/Lehre/GDI-BiM/bimgdi-cs/2019_wise/uebungen/dozentron")
