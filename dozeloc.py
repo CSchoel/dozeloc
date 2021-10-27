@@ -48,13 +48,17 @@ class FileChooser(ttk.Frame):
         super().__init__(parent)
         self.parent = parent
         self.create_widgets()
+        self.initialdir = Path(".")
     def create_widgets(self):
-        entry = ttk.Entry(self)
-        button = ttk.Button(self, text="Browse..")
-        entry.grid(column=0, row=0, sticky="EWNS")
-        button.grid(column=1, row=0, sticky="NS")
+        self.textvar = tk.StringVar()
+        self.entry = ttk.Entry(self, textvariable=self.textvar)
+        self.button = ttk.Button(self, text="Browse..", command=self.browse)
+        self.entry.grid(column=0, row=0, sticky="EWNS")
+        self.button.grid(column=1, row=0, sticky="NS")
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=0)
+    def browse(self):
+        self.textvar.set(tkfd.askopenfilename(title="Open file", filetypes=[("python code", "*.py")], initialdir=self.initialdir))
 
 
 if __name__ == "__main__":
