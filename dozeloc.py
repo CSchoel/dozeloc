@@ -35,15 +35,6 @@ class DozelocUI(ttk.Frame):
         #                       command=self.master.destroy)
         # self.quit.pack(side="bottom")
 
-    def create_file_chooser(self, parent, text):
-        frame = ttk.Frame(parent)
-        label = ttk.Label(frame, text=text)
-        entry = ttk.Entry(frame)
-        button = ttk.Button(frame, text="Browse..")
-        label.grid(column=0, row=0)
-        entry.grid(column=1, row=0)
-        button.grid(column=2, row=0)
-        return frame
 
     def say_hi(self):
         print("hi there, everyone!")
