@@ -11,9 +11,11 @@ class DozelocUI(ttk.Frame):
     def __init__(self, root=None, exdir=Path(".")):
         super().__init__(root)
         self.root = root
-        self.pack()
         self.exdir = Path(exdir)
         self.create_widgets()
+        self.grid(row=0, column=0, sticky="NESW")
+        self.root.columnconfigure(0, weight=1)
+        self.root.rowconfigure(0, weight=1)
 
     def exercises(self, exdir):
         # find folders which contain a folder called "test"
@@ -34,9 +36,10 @@ class DozelocUI(ttk.Frame):
         self.solution_label.grid(row=1, column=0)
         self.solution_chooser.grid(row=1, column=1, sticky="EW")
         self.check_button.grid(row=2, column=0, columnspan=2)
-        self.result.grid(row=3, column=0, columnspan=2)
+        self.result.grid(row=3, column=0, columnspan=2, sticky="NESW")
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(1, weight=3)
+        self.grid_rowconfigure(3, weight=1)
 
         # self.quit = ttk.Button(self, text="QUIT",
         #                       command=self.master.destroy)
