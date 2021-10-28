@@ -41,7 +41,19 @@ class DozelocUI(ttk.Frame):
         #                       command=self.master.destroy)
         # self.quit.pack(side="bottom")
     def check(self):
-        print("hi there, everyone!")
+        ex = self.exdir / self.exercise_chooser.get()
+        test = [x for x in (ex / "test").iterdir() if x.suffix == ".py"]
+        sol = Path(self.solution_chooser.textvar.get())
+        out = "{} + {}".format(ex, sol)
+        res = ""
+        for t in test:
+            res += run_unittest(t, sol)
+            res += "\n"
+        self.show_result(res)
+
+    def show_result(self, res):
+        self.result.delete("1.0", "end")
+        self.result.insert("1.0", res)
 
 class FileChooser(ttk.Frame):
     def __init__(self, parent=None):
