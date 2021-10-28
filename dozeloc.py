@@ -48,11 +48,19 @@ class DozelocUI(ttk.Frame):
         ex = self.exdir / self.exercise_chooser.get()
         test = [x for x in (ex / "test").iterdir() if x.suffix == ".py"]
         sol = Path(self.solution_chooser.textvar.get())
-        out = "{} + {}".format(ex, sol)
         res = ""
+        correct = True
         for t in test:
-            res += run_unittest(t, sol)
+            text, code = run_unittest(t, sol)
+            correct = correct and code == 0
+            res += text
             res += "\n"
+        if correct:
+            self.result["background"] = "#AFA"
+            # self.style.configure("text", background=(200, 255, 200))
+        else:
+            self.result["background"] = "#FAA"
+            # self.style.configure("text", background=(255, 255, 255))
         self.show_result(res)
 
     def show_result(self, res):
@@ -87,7 +95,7 @@ def run_unittest(test_file, solution_file):
     res = subprocess.run(["python", test_file], env=subenv, timeout=60, capture_output=True)
     restxt = "" if len(res.stdout) == 0 else "{}\n\n".format(res.stdout.decode("utf-8"))
     restxt += str(res.stderr.decode("utf-8"))
-    return restxt
+    return (restxt, res.returncode)
 
 if __name__ == "__main__":
     root = tk.Tk()
