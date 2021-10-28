@@ -66,18 +66,3 @@ if __name__ == "__main__":
     exdir = Path("/home/cslz90/Documents/Lehre/GDI-BiM/bimgdi-cs/2019_wise/uebungen/dozentron")
     app = DozelocUI(master=root, exdir=exdir)
     app.mainloop()
-    exit(1)
-    initialdir = Path("/home/cslz90/Documents/Lehre/GDI-BiM/bimgdi-cs/2019_wise/uebungen/dozentron")
-    test_file = tkfd.askopenfilename(title="Test file", filetypes=[("python code", "*.py")], initialdir=initialdir)
-    test_file = Path(test_file)
-    solution_file = tkfd.askopenfilename(title="Solution file", filetypes=[("python code", "*.py")], initialdir=initialdir)
-    solution_file = Path(solution_file)
-    subenv = os.environ.copy()
-    if "PYTHONPATH" not in subenv:
-        subenv["PYTHONPATH"] = solution_file.parent
-    else:
-        subenv["PYTHONPATH"] += ":" + (solution_file.parent)
-    res = subprocess.run(["python", test_file], env=subenv, timeout=60)
-    # print(solution_file.parent)
-    # sys.path.append(solution_file.parent)
-    # exec(test_file.read_text(encoding="UTF_8"))
