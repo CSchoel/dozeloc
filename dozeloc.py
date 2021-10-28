@@ -8,9 +8,9 @@ import subprocess
 import os
 
 class DozelocUI(ttk.Frame):
-    def __init__(self, master=None, exdir=Path(".")):
-        super().__init__(master)
-        self.master = master
+    def __init__(self, root=None, exdir=Path(".")):
+        super().__init__(root)
+        self.root = root
         self.pack()
         self.exdir = Path(exdir)
         self.create_widgets()
@@ -89,5 +89,5 @@ def run_unittest(test_file, solution_file):
 if __name__ == "__main__":
     root = tk.Tk()
     exdir = Path("/home/cslz90/Documents/Lehre/GDI-BiM/bimgdi-cs/2019_wise/uebungen/dozentron")
-    app = DozelocUI(master=root, exdir=exdir)
+    app = DozelocUI(root=root, exdir=exdir)
     app.mainloop()
