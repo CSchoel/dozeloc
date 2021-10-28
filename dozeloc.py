@@ -60,6 +60,16 @@ class FileChooser(ttk.Frame):
     def browse(self):
         self.textvar.set(tkfd.askopenfilename(title="Open file", filetypes=[("python code", "*.py")], initialdir=self.initialdir))
 
+def run_unittest(test_file, solution_file):
+    subenv = os.environ.copy()
+    if "PYTHONPATH" not in subenv:
+        subenv["PYTHONPATH"] = solution_file.parent
+    else:
+        subenv["PYTHONPATH"] += ":" + (solution_file.parent)
+    res = subprocess.run(["python", test_file], env=subenv, timeout=60, capture_output=True)
+    restxt = "" if len(res.stdout) == 0 else "{}\n\n".format(res.stdout.decode("utf-8"))
+    restxt += str(res.stderr.decode("utf-8"))
+    return restxt
 
 if __name__ == "__main__":
     root = tk.Tk()
