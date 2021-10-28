@@ -71,7 +71,9 @@ class FileChooser(ttk.Frame):
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=0)
     def browse(self):
-        self.textvar.set(tkfd.askopenfilename(title="Open file", filetypes=[("python code", "*.py")], initialdir=self.initialdir))
+        fn = tkfd.askopenfilename(title="Open file", filetypes=[("python code", "*.py")], initialdir=self.initialdir)
+        self.textvar.set(fn)
+        self.initialdir = Path(fn).parent
 
 def run_unittest(test_file, solution_file):
     subenv = os.environ.copy()
