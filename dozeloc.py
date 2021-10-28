@@ -21,7 +21,7 @@ class DozelocUI(ttk.Frame):
         return sorted([x.name for x in exercises])
 
     def create_widgets(self):
-        self.exercise_chooser = ttk.Combobox(self, values=self.exercises(self.exdir))
+        self.exercise_chooser = ttk.Combobox(self, values=self.exercises(self.exdir), state="readonly")
         self.exercise_label = ttk.Label(self, text="Exercise")
         self.solution_label = ttk.Label(self, text="Solution file")
         self.solution_chooser = FileChooser(self)
