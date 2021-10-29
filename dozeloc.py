@@ -33,6 +33,7 @@ class DozelocUI(ttk.Frame):
         self.solution_chooser = FileChooser(self)
         self.check_button = ttk.Button(self, text="Check!", command=self.check)
         self.result = tk.Text(self, state="disabled")
+        self.exercise_text = MarkdownText(self)
 
         self.exercise_label.grid(row=0, column=0, sticky="W", padx=5)
         self.exercise_chooser.grid(row=0, column=1, sticky="EW", pady=5)
@@ -40,8 +41,10 @@ class DozelocUI(ttk.Frame):
         self.solution_chooser.grid(row=1, column=1, sticky="EW", pady=5)
         self.check_button.grid(row=2, column=0, columnspan=2, pady=5)
         self.result.grid(row=3, column=0, columnspan=2, sticky="NESW")
+        self.exercise_text.grid(row=0, column=2, rowspan=4, sticky="NESW")
         self.grid_columnconfigure(0, weight=0)
         self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=1)
 
     def check(self):
@@ -219,9 +222,8 @@ if __name__ == "__main__":
 
     This *should* be formatted in **bold** and should have [a link](http://somewhere.de).
     """)
-    p = MarkdownParser()
-    print(p.parse_markdown(md))
-    exit(0)
+    # p = MarkdownParser()
+    # print("\n".join([str(x) for x in p.parse_markdown(md)]))
     if len(sys.argv) > 1:
         if Path(sys.argv[1]).is_dir():
             exdir = sys.argv[1]
@@ -230,4 +232,5 @@ if __name__ == "__main__":
             print("{} does not exist or is not a folder".format(sys.argv[1]))
     root = tk.Tk()
     app = DozelocUI(root=root, exdir=exdir)
+    app.exercise_text.insert_markdown("1.0", md)
     app.mainloop()
