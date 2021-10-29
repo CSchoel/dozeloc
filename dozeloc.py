@@ -97,7 +97,8 @@ class MarkdownText(tk.Text):
 
     def insert_markdown(self, index, md):
         current = index
-        for text, tags in self.parse_markdown(self, md)
+        parser = MarkdownParser()
+        for text, tags in parser.parse_markdown(self, md)
             self.insert(current, text, tags=tags)
             current = "insert"
 
@@ -105,7 +106,11 @@ class MarkdownText(tk.Text):
         self.delete("1.0", "end")
         self.insert_markdown("1.0", md)
 
-    def parse_markdown(self, md):
+
+class MarkdownParser(object):
+    def __init__(self, indentation="    "):
+        self.indentation = indentation
+        def parse_markdown(self, md):
         result = []
         for line in md.splitlines():
             result.extend(self.parse_line(md))
