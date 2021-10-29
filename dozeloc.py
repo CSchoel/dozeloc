@@ -122,17 +122,26 @@ class MarkdownText(tk.Text):
             return [(md, ("code",))]
         # handle headings
         if md.startswith("#"):
-            pass
+            level = 0
+            self.persistent_tags = []
+            while md[level] == "#":
+                level += 1
+            result = self.parse_inline(md[level+1:], tags=["h%d" % level])
+            self.persistent_tags = []
+            return result
         # handle paragraph break
         if len(stripped.strip()) == 0:
-            pass
+            self.persistent_tags = []
+            return [("\n\n", (,))]
         rest = md
         # count indentation level
         indent = 0
         while rest.startswith(indentation):
             rest = md[len(indentation):]
             indent += 1
-        line_tags = ["indent%d" % indent]
+        line_tags = []
+        line_tags.extend(self.persistent_tags)
+        line_tags.append("indent%d" % indent)
         # handle codes at start of line
         while re.search(r"^(\* |\- |\+ |\> |\d+\. )", rest) is not None:
             if rest.startswith("#"):
@@ -147,7 +156,9 @@ class MarkdownText(tk.Text):
                 # handle ordered lists
                 number = re.find(r"^\d+").group(0)
                 line_tags.append("ol")
-        result.extend(self.parse_inline(rest, tags=tags))
+                result.append(("{}. ".format(number), tuple(line_tags)))
+        result.extend(self.parse_inline(rest, tags=line_tags))
+        return result
 
     def parse_inline(self, md, tags=[]):
         tokens = re.split(md, r"[^\\](\*{1,2}|`|!?\[.*?\]\(.*?\)|)")
