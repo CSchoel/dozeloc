@@ -110,6 +110,7 @@ class MarkdownText(tk.Text):
 class MarkdownParser(object):
     def __init__(self, indentation="    "):
         self.indentation = indentation
+        self.incode = False
 
     def parse_markdown(self, md):
         result = []
