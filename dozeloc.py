@@ -186,7 +186,7 @@ class MarkdownParser(object):
             else:
                 # either link, image, or normal text
                 result.append((t, tuple(tags + self.persistent_tags)))
-        return results
+        return result
 
 
 def run_unittest(test_file, solution_file):
