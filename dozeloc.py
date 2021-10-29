@@ -29,7 +29,7 @@ class DozelocUI(ttk.Frame):
         self.solution_label = ttk.Label(self, text="Solution file")
         self.solution_chooser = FileChooser(self)
         self.check_button = ttk.Button(self, text="Check!", command=self.check)
-        self.result = tk.Text(self)
+        self.result = tk.Text(self, state="disabled")
 
         self.exercise_label.grid(row=0, column=0, sticky="W", padx=5)
         self.exercise_chooser.grid(row=0, column=1, sticky="EW", pady=5)
@@ -64,8 +64,10 @@ class DozelocUI(ttk.Frame):
         self.show_result(res)
 
     def show_result(self, res):
+        self.result.config(state="normal")
         self.result.delete("1.0", "end")
         self.result.insert("1.0", res)
+        self.result.config(state="disabled")
 
 class FileChooser(ttk.Frame):
     def __init__(self, parent=None):
