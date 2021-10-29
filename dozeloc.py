@@ -141,7 +141,7 @@ class MarkdownParser(object):
             self.persistent_tags = []
             return result
         # handle paragraph break
-        if len(stripped.strip()) == 0:
+        if len(rest.strip()) == 0:
             self.persistent_tags = []
             return [("\n\n", ())]
         result = []
