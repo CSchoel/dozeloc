@@ -150,19 +150,20 @@ class MarkdownParser(object):
         line_tags.append("indent%d" % indent)
         # handle codes at start of line
         while re.search(r"^(\* |\- |\+ |\> |\d+\. )", rest) is not None:
-            if rest.startswith("#"):
-                line_tags.append("h1")
-            elif rest[0] in ['*', '-', '+']:
+            if rest[0] in ['*', '-', '+']:
                 # handle unordered lists
                 line_tags.append("ul")
+                rest = rest[2:]
             elif rest.startswith(">"):
                 # handle blockquotes
                 line_tags.append("blockquote")
+                rest = rest[2:]
             else:
                 # handle ordered lists
                 number = re.find(r"^\d+").group(0)
                 line_tags.append("ol")
                 result.append(("{}. ".format(number), tuple(line_tags)))
+                rest = rest[len(number)+2:]
         result.extend(self.parse_inline(rest, tags=line_tags))
         return result
 
