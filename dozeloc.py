@@ -7,6 +7,7 @@ import sys
 import subprocess
 import os
 
+
 class DozelocUI(ttk.Frame):
     def __init__(self, root=None, exdir=Path(".")):
         super().__init__(root)
@@ -41,9 +42,6 @@ class DozelocUI(ttk.Frame):
         self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(3, weight=1)
 
-        # self.quit = ttk.Button(self, text="QUIT",
-        #                       command=self.master.destroy)
-        # self.quit.pack(side="bottom")
     def check(self):
         ex = self.exdir / self.exercise_chooser.get()
         test = [x for x in (ex / "test").iterdir() if x.suffix == ".py"]
@@ -57,10 +55,8 @@ class DozelocUI(ttk.Frame):
             res += "\n"
         if correct:
             self.result["background"] = "#AFA"
-            # self.style.configure("text", background=(200, 255, 200))
         else:
             self.result["background"] = "#FAA"
-            # self.style.configure("text", background=(255, 255, 255))
         self.show_result(res)
 
     def show_result(self, res):
@@ -69,12 +65,14 @@ class DozelocUI(ttk.Frame):
         self.result.insert("1.0", res)
         self.result.config(state="disabled")
 
+
 class FileChooser(ttk.Frame):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.parent = parent
         self.create_widgets()
         self.initialdir = Path(".")
+
     def create_widgets(self):
         self.textvar = tk.StringVar()
         self.entry = ttk.Entry(self, textvariable=self.textvar)
@@ -83,11 +81,13 @@ class FileChooser(ttk.Frame):
         self.button.grid(column=1, row=0, sticky="NS")
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=0)
+
     def browse(self):
         fn = tkfd.askopenfilename(title="Open file", filetypes=[("python code", "*.py")], initialdir=self.initialdir)
         if len(fn) > 0:
             self.textvar.set(fn)
             self.initialdir = Path(fn).parent
+
 
 def run_unittest(test_file, solution_file):
     subenv = os.environ.copy()
