@@ -115,7 +115,7 @@ class MarkdownParser(object):
     def parse_markdown(self, md):
         result = []
         for line in md.splitlines():
-            result.extend(self.parse_line(md))
+            result.extend(self.parse_line(line))
         return result
 
     def parse_line(self, md, indentation="    "):
