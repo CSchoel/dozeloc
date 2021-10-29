@@ -159,10 +159,27 @@ class MarkdownText(tk.Text):
         result.extend(self.parse_inline(rest, tags=line_tags))
         return result
 
+    def toggle(self, tag):
+        if tag in self.persistent_tags:
+            self.persistent_tags.remove(tag)
+        else:
+            self.persistent_tags.add(tag)
+
     def parse_inline(self, md, tags=[]):
-        tokens = re.split(md, r"[^\\](\*{1,2}|`|!?\[.*?\]\(.*?\)|)")
+        result = []
+        # split at *, **, `, links, and images (only if not preceded by escape sign)
+        tokens = re.split(md, r"(?<=[^\\])(\*{1,2}|`|!?\[.*?\]\(.*?\)|)")
         for t in tokens:
-            pass
+            if t == "*":
+                self.toggle("em")
+            elif t == "**":
+                self.toggle("strong")
+            elif t == "`":
+                self.toggle("code")
+            else:
+                # either link, image, or normal text
+                result.append((t, tuple(tags + self.persistent_tags)))
+        return results
 
 
 
