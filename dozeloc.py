@@ -171,7 +171,7 @@ class MarkdownParser(object):
         if tag in self.persistent_tags:
             self.persistent_tags.remove(tag)
         else:
-            self.persistent_tags.add(tag)
+            self.persistent_tags.append(tag)
 
     def parse_inline(self, md, tags=[]):
         result = []
