@@ -7,6 +7,7 @@ import sys
 import subprocess
 import os
 import textwrap
+import re
 
 
 class DozelocUI(ttk.Frame):
@@ -88,6 +89,61 @@ class FileChooser(ttk.Frame):
         if len(fn) > 0:
             self.textvar.set(fn)
             self.initialdir = Path(fn).parent
+
+
+class MarkdownText(tk.Text):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def insert_markdown(self, index, md):
+        current = index
+        for text, tags in self.parse_markdown(self, md)
+            self.insert(current, text, tags=tags)
+            current = "insert"
+
+    def set_markdown_content(self, md):
+        self.delete("1.0", "end")
+        self.insert_markdown("1.0", md)
+
+    def parse_markdown(self, md):
+        result = []
+        for line in md.splitlines():
+            result.extend(self.parse_line(md))
+        return result
+
+    def parse_line(self, md):
+        result = []
+        stripped = line.lstrip()
+        # handle multiline code
+        if stripped.startswith("```"):
+            self.incode = not self.incode
+            return []
+        if self.incode:
+            return [(md, ("code",))]
+        rest = md
+        tags = []
+        if stripped.startswith("#"):
+            # handle Headings
+            tags = ["h1"]
+        elif stripped.startswith("*"):
+            # handle unordered lists
+            tags = ["ul"]
+        elif stripped.startswith(">"):
+            # handle blockquotes
+            tags = ["blockquote"]
+        elif stripped.startswith("1. "):
+            # handle ordered lists
+            tags = ["ol"]
+        result.extend(self.parse_inline(rest, tags=tags))
+
+    def parse_inline(self, md, tags=[]):
+        # handle italic
+        # handle bold
+        # handle inline code
+        # handle link
+        # handle image
+        pass
+
 
 
 def run_unittest(test_file, solution_file):
