@@ -176,7 +176,7 @@ class MarkdownParser(object):
     def parse_inline(self, md, tags=[]):
         result = []
         # split at *, **, `, links, and images (only if not preceded by escape sign)
-        tokens = re.split(md, r"(?<=[^\\])(\*{1,2}|`|!?\[.*?\]\(.*?\)|)")
+        tokens = re.split(r"(?<=[^\\])(\*{1,2}|`|!?\[.*?\]\(.*?\))", md)
         for t in tokens:
             if t == "*":
                 self.toggle("em")
