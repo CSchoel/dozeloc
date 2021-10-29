@@ -112,14 +112,18 @@ class MarkdownText(tk.Text):
         return result
 
     def parse_line(self, md, indentation="    "):
-        result = []
-        stripped = line.lstrip()
+        rest = md
+        # count indentation level
+        indent = 0
+        while rest.startswith(indentation):
+            rest = md[len(indentation):]
+            indent += 1
         # handle multiline code
-        if stripped.startswith("```"):
+        if rest.startswith("```"):
             self.incode = not self.incode
             return []
         if self.incode:
-            return [(md, ("code",))]
+            return [(md, ("code", "indent%d" % indent))]
         # handle headings
         if md.startswith("#"):
             level = 0
@@ -133,12 +137,7 @@ class MarkdownText(tk.Text):
         if len(stripped.strip()) == 0:
             self.persistent_tags = []
             return [("\n\n", (,))]
-        rest = md
-        # count indentation level
-        indent = 0
-        while rest.startswith(indentation):
-            rest = md[len(indentation):]
-            indent += 1
+        result = []
         line_tags = []
         line_tags.extend(self.persistent_tags)
         line_tags.append("indent%d" % indent)
