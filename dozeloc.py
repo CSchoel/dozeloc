@@ -111,7 +111,7 @@ class MarkdownText(tk.Text):
             result.extend(self.parse_line(md))
         return result
 
-    def parse_line(self, md):
+    def parse_line(self, md, indentation="    "):
         result = []
         stripped = line.lstrip()
         # handle multiline code
@@ -120,29 +120,39 @@ class MarkdownText(tk.Text):
             return []
         if self.incode:
             return [(md, ("code",))]
+        # handle headings
+        if md.startswith("#"):
+            pass
+        # handle paragraph break
+        if len(stripped.strip()) == 0:
+            pass
         rest = md
-        tags = []
-        if stripped.startswith("#"):
-            # handle Headings
-            tags = ["h1"]
-        elif stripped.startswith("*"):
-            # handle unordered lists
-            tags = ["ul"]
-        elif stripped.startswith(">"):
-            # handle blockquotes
-            tags = ["blockquote"]
-        elif stripped.startswith("1. "):
-            # handle ordered lists
-            tags = ["ol"]
+        # count indentation level
+        indent = 0
+        while rest.startswith(indentation):
+            rest = md[len(indentation):]
+            indent += 1
+        line_tags = ["indent%d" % indent]
+        # handle codes at start of line
+        while re.search(r"^(\* |\- |\+ |\> |\d+\. )", rest) is not None:
+            if rest.startswith("#"):
+                line_tags.append("h1")
+            elif rest[0] in ['*', '-', '+']:
+                # handle unordered lists
+                line_tags.append("ul")
+            elif rest.startswith(">"):
+                # handle blockquotes
+                line_tags.append("blockquote")
+            else:
+                # handle ordered lists
+                number = re.find(r"^\d+").group(0)
+                line_tags.append("ol")
         result.extend(self.parse_inline(rest, tags=tags))
 
     def parse_inline(self, md, tags=[]):
-        # handle italic
-        # handle bold
-        # handle inline code
-        # handle link
-        # handle image
-        pass
+        tokens = re.split(md, r"[^\\](\*{1,2}|`|!?\[.*?\]\(.*?\)|)")
+        for t in tokens:
+            pass
 
 
 
