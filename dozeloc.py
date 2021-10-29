@@ -97,6 +97,7 @@ class FileChooser(ttk.Frame):
 class MarkdownText(tk.Text):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.tag_config("em", background="#F00")
 
     def insert_markdown(self, index, md):
         current = index
