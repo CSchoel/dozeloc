@@ -13,7 +13,7 @@ class DozelocUI(ttk.Frame):
         self.root = root
         self.exdir = Path(exdir)
         self.create_widgets()
-        self.grid(row=0, column=0, sticky="NESW")
+        self.grid(row=0, column=0, sticky="NESW", padx=10, pady=10)
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
 
@@ -31,14 +31,14 @@ class DozelocUI(ttk.Frame):
         self.check_button = ttk.Button(self, text="Check!", command=self.check)
         self.result = tk.Text(self)
 
-        self.exercise_label.grid(row=0, column=0)
-        self.exercise_chooser.grid(row=0, column=1, sticky="EW")
-        self.solution_label.grid(row=1, column=0)
-        self.solution_chooser.grid(row=1, column=1, sticky="EW")
-        self.check_button.grid(row=2, column=0, columnspan=2)
+        self.exercise_label.grid(row=0, column=0, sticky="W", padx=5)
+        self.exercise_chooser.grid(row=0, column=1, sticky="EW", pady=5)
+        self.solution_label.grid(row=1, column=0, sticky="W", padx=5)
+        self.solution_chooser.grid(row=1, column=1, sticky="EW", pady=5)
+        self.check_button.grid(row=2, column=0, columnspan=2, pady=5)
         self.result.grid(row=3, column=0, columnspan=2, sticky="NESW")
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=3)
+        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(1, weight=1)
         self.grid_rowconfigure(3, weight=1)
 
         # self.quit = ttk.Button(self, text="QUIT",
