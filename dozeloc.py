@@ -6,6 +6,7 @@ from pathlib import Path
 import sys
 import subprocess
 import os
+import textwrap
 
 
 class DozelocUI(ttk.Frame):
@@ -101,7 +102,16 @@ def run_unittest(test_file, solution_file):
     return (restxt, res.returncode)
 
 if __name__ == "__main__":
-    root = tk.Tk()
     exdir = Path("/home/cslz90/Documents/Lehre/GDI-BiM/bimgdi-cs/2019_wise/uebungen/dozentron")
+    usage = textwrap.dedent("""\
+    Usage: python dozeloc.py [exercise_definition_folder]
+    """)
+    if len(sys.argv) > 1:
+        if Path(sys.argv[1]).is_dir():
+            exdir = sys.argv[1]
+        else:
+            print(usage)
+            print("{} does not exist or is not a folder".format(sys.argv[1]))
+    root = tk.Tk()
     app = DozelocUI(root=root, exdir=exdir)
     app.mainloop()
