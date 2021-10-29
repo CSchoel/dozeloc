@@ -98,7 +98,7 @@ class MarkdownText(tk.Text):
     def insert_markdown(self, index, md):
         current = index
         parser = MarkdownParser()
-        for text, tags in parser.parse_markdown(self, md)
+        for text, tags in parser.parse_markdown(self, md):
             self.insert(current, text, tags=tags)
             current = "insert"
 
@@ -110,7 +110,8 @@ class MarkdownText(tk.Text):
 class MarkdownParser(object):
     def __init__(self, indentation="    "):
         self.indentation = indentation
-        def parse_markdown(self, md):
+
+    def parse_markdown(self, md):
         result = []
         for line in md.splitlines():
             result.extend(self.parse_line(md))
@@ -187,7 +188,6 @@ class MarkdownParser(object):
         return results
 
 
-
 def run_unittest(test_file, solution_file):
     subenv = os.environ.copy()
     if "PYTHONPATH" not in subenv:
@@ -204,6 +204,22 @@ if __name__ == "__main__":
     usage = textwrap.dedent("""\
     Usage: python dozeloc.py [exercise_definition_folder]
     """)
+    md = textwrap.dedent("""\
+    # This is a markdown document
+
+    * It is nice
+        * It has nested lists
+    * And multiple items
+
+    ```verbatim
+    But also `code`, which should *not* be formatted further.
+    ```
+
+    This *should* be formatted in **bold** and should have [a link](http://somewhere.de).
+    """)
+    p = MarkdownParser()
+    print(p.parse_markdown(md))
+    exit(0)
     if len(sys.argv) > 1:
         if Path(sys.argv[1]).is_dir():
             exdir = sys.argv[1]
