@@ -206,7 +206,7 @@ def run_unittest(test_file, solution_file):
     return (restxt, res.returncode)
 
 if __name__ == "__main__":
-    exdir = Path("/home/cslz90/Documents/Lehre/GDI-BiM/bimgdi-cs/2019_wise/uebungen/dozentron")
+    exdir = Path("../uebungen/dozentron")
     usage = textwrap.dedent("""\
     Usage: python dozeloc.py [exercise_definition_folder]
     """)
