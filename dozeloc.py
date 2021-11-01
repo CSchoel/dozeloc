@@ -100,12 +100,18 @@ class MarkdownText(tk.Text):
         super().__init__(*args, **kwargs)
         self.fonts = {}
         for x in ['em', 'strong', 'code']:
-            self.fonts[x] = font.nametofont(self["font"]).copy()
+            self.fonts[x] = font.nametofont("TkDefaultFont").copy()
         self.fonts['em'].config(slant="italic")
         self.fonts['strong'].config(weight="bold")
         self.fonts['code'].config(family=font.nametofont("TkFixedFont")["family"])
-        for x in ['em', 'strong', 'code']:
+        for l in range(1, 5):
+            f = font.nametofont(self["font"]).copy()
+            # h4 = 1.33, h3 = 1.66, h2 = 1.99, h1 = 2.33
+            f.config(size=int(round(f["size"] * (8-l)/3)))
+            self.fonts["h{}".format(l)] = f
+        for x in ['em', 'strong', 'code'] + ["h{}".format(l) for l in range(1,5)]:
             self.tag_config(x, font=self.fonts[x])
+        self.tag_config("code", background="#BBB")
         for i in range(1, 10):
             self.tag_config("indent{}".format(i), lmargin1=20*i, lmargin2=20*i)
 
@@ -168,6 +174,8 @@ class MarkdownParser(object):
                 # handle unordered lists
                 line_tags.append("ul")
                 rest = rest[2:]
+                # add newline and bullet point
+                result.append(("\n\u2022 ", tuple(line_tags)))
             elif rest.startswith(">"):
                 # handle blockquotes
                 line_tags.append("blockquote")
