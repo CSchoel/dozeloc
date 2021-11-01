@@ -126,8 +126,10 @@ class MarkdownText(tk.Text):
         current = index
         parser = MarkdownParser()
         for text, tags in parser.parse_markdown(md):
+            print(tags, text)
             self.insert(current, text, tags)
             current = "insert"
+        print("\n\n")
 
     def set_markdown_content(self, md):
         self.delete("1.0", "end")
