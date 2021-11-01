@@ -159,7 +159,7 @@ class MarkdownParser(object):
             self.incode = not self.incode
             return []
         if self.incode:
-            return [(md, ("code", "indent%d" % indent))]
+            return [(md + "\n", ("code", "indent%d" % indent))]
         # handle headings
         if md.startswith("#"):
             level = 0
