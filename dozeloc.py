@@ -107,6 +107,7 @@ class FileChooser(ttk.Frame):
 class MarkdownText(tk.Text):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.config(wrap="word")
         self.fonts = {}
         for x in ['em', 'strong', 'code']:
             self.fonts[x] = font.nametofont("TkDefaultFont").copy()
