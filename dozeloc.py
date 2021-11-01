@@ -3,6 +3,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as tkfd
 import tkinter.font as font
+import tkinter.scrolledtext
 from pathlib import Path
 import sys
 import subprocess
@@ -36,7 +37,7 @@ class DozelocUI(ttk.Frame):
         self.solution_label = ttk.Label(self, text="Solution file")
         self.solution_chooser = FileChooser(self)
         self.check_button = ttk.Button(self, text="Check!", command=self.check)
-        self.result = tk.Text(self, state="disabled")
+        self.result = tkinter.scrolledtext.ScrolledText(self, state="disabled")
         self.exercise_text = MarkdownText(self)
 
         self.exercise_label.grid(row=0, column=0, sticky="W", padx=5)
@@ -104,7 +105,7 @@ class FileChooser(ttk.Frame):
             self.initialdir = Path(fn).parent
 
 
-class MarkdownText(tk.Text):
+class MarkdownText(tkinter.scrolledtext.ScrolledText):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.config(wrap="word")
