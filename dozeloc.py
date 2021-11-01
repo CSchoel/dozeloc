@@ -132,7 +132,9 @@ class MarkdownText(tk.Text):
             current = "insert"
         print("\n\n")
         for url in parser.hrefs:
-            self.tag_bind("href={}".format(url), "<1>", lambda ev: self.visit_url(url))
+            # NOTE: we need to bind the *current* value of url to the lambda
+            # otherwise, the call will always use the value after the loop has ended
+            self.tag_bind("href={}".format(url), "<1>", lambda ev, u=url: self.visit_url(u))
             self.tag_config("href={}".format(url), foreground="#33E", underline=True)
 
     def set_markdown_content(self, md):
