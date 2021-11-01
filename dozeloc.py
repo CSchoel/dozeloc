@@ -9,6 +9,7 @@ import subprocess
 import os
 import textwrap
 import re
+import webbrowser
 
 
 class DozelocUI(ttk.Frame):
@@ -118,7 +119,7 @@ class MarkdownText(tk.Text):
             self.fonts["h{}".format(l)] = f
         for x in ['em', 'strong', 'code'] + ["h{}".format(l) for l in range(1,5)]:
             self.tag_config(x, font=self.fonts[x])
-        self.tag_config("code", background="#BBB")
+        self.tag_config("code", background="#DDD")
         for i in range(1, 10):
             self.tag_config("indent{}".format(i), lmargin1=20*i, lmargin2=20*i)
 
@@ -130,16 +131,24 @@ class MarkdownText(tk.Text):
             self.insert(current, text, tags)
             current = "insert"
         print("\n\n")
+        for url in parser.hrefs:
+            self.tag_bind("href={}".format(url), "<1>", lambda ev: self.visit_url(url))
+            self.tag_config("href={}".format(url), foreground="#33E", underline=True)
 
     def set_markdown_content(self, md):
         self.delete("1.0", "end")
         self.insert_markdown("1.0", md)
+
+    def visit_url(self, url):
+        print("visit", url)
+        webbrowser.open(url)
 
 
 class MarkdownParser(object):
     def __init__(self, indentation="    "):
         self.indentation = indentation
         self.incode = False
+        self.hrefs = []
 
     def parse_markdown(self, md):
         result = []
@@ -152,7 +161,7 @@ class MarkdownParser(object):
         # count indentation level
         indent = 0
         while rest.startswith(indentation):
-            rest = md[len(indentation):]
+            rest = rest[len(indentation):]
             indent += 1
         # handle multiline code
         if rest.startswith("```"):
@@ -217,8 +226,19 @@ class MarkdownParser(object):
             elif t == "`":
                 self.toggle("code")
             else:
-                # either link, image, or normal text
-                result.append((t, tuple(tags + self.persistent_tags)))
+                match = re.match(r"(!?)\[(.*?)\]\((.*?)\)", t)
+                if match is not None:
+                    if match.group(1) == "!":
+                        # image
+                        pass
+                    else:
+                        # hyperlink
+                        hl = "href={}".format(match.group(3))
+                        self.hrefs.append(match.group(3))
+                        result.append((match.group(2), tuple(tags + self.persistent_tags + [hl])))
+                else:
+                    # add everything else as normal text
+                    result.append((t, tuple(tags + self.persistent_tags)))
         return result
 
 
