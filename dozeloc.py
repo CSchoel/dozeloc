@@ -2,6 +2,7 @@ import unittest
 import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as tkfd
+import tkinter.font as font
 from pathlib import Path
 import sys
 import subprocess
@@ -97,7 +98,16 @@ class FileChooser(ttk.Frame):
 class MarkdownText(tk.Text):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.tag_config("em", background="#F00")
+        self.fonts = {}
+        for x in ['em', 'strong', 'code']:
+            self.fonts[x] = font.nametofont(self["font"]).copy()
+        self.fonts['em'].config(slant="italic")
+        self.fonts['strong'].config(weight="bold")
+        self.fonts['code'].config(family=font.nametofont("TkFixedFont")["family"])
+        for x in ['em', 'strong', 'code']:
+            self.tag_config(x, font=self.fonts[x])
+        for i in range(1, 10):
+            self.tag_config("indent{}".format(i), lmargin1=20*i, lmargin2=20*i)
 
     def insert_markdown(self, index, md):
         current = index
