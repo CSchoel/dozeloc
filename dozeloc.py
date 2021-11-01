@@ -196,6 +196,7 @@ class MarkdownParser(object):
                 result.append(("{}. ".format(number), tuple(line_tags)))
                 rest = rest[len(number)+2:]
         result.extend(self.parse_inline(rest, tags=line_tags))
+        result.append((" ", tuple(line_tags)))
         return result
 
     def toggle(self, tag):
