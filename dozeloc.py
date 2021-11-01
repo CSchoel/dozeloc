@@ -29,6 +29,7 @@ class DozelocUI(ttk.Frame):
     def create_widgets(self):
         self.exercise_chooser = ttk.Combobox(self, values=self.exercises(self.exdir), state="readonly")
         self.exercise_chooser.current(0)
+        self.exercise_chooser.bind("<<ComboboxSelected>>", self.select)
         self.exercise_label = ttk.Label(self, text="Exercise")
         self.solution_label = ttk.Label(self, text="Solution file")
         self.solution_chooser = FileChooser(self)
@@ -47,6 +48,12 @@ class DozelocUI(ttk.Frame):
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=1)
+    
+    def select(self, event):
+        ex = self.exdir / self.exercise_chooser.get()
+        docs = [x for x in ex.iterdir() if x.suffix == ".md"]
+        self.exercise_text.delete("1.0", "end")
+        self.exercise_text.insert_markdown("1.0", docs[0].read_text(encoding="utf-8"))
 
     def check(self):
         ex = self.exdir / self.exercise_chooser.get()
