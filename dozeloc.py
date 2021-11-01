@@ -38,7 +38,9 @@ class DozelocUI(ttk.Frame):
         self.solution_chooser = FileChooser(self)
         self.check_button = ttk.Button(self, text="Check!", command=self.check)
         self.result = tkinter.scrolledtext.ScrolledText(self, state="disabled")
+        self.result.config(padx=5, pady=5)
         self.exercise_text = MarkdownText(self)
+        self.exercise_text.config(padx=5, pady=5)
 
         self.exercise_label.grid(row=0, column=0, sticky="W", padx=5)
         self.exercise_chooser.grid(row=0, column=1, sticky="EW", pady=5)
