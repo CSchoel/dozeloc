@@ -16,6 +16,7 @@ class DozelocUI(ttk.Frame):
     def __init__(self, root=None, exdir=Path(".")):
         super().__init__(root)
         self.root = root
+        self.root.title("Dozeloc")
         self.exdir = Path(exdir)
         self.create_widgets()
         self.grid(row=0, column=0, sticky="NESW", padx=10, pady=10)
