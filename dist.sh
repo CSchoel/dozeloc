@@ -2,6 +2,9 @@
 # builds distribution zip file of Dozeloc
 # must be run from within this directory
 
+# clear distribution folder if it exists
+rm -rf dist/
+
 # create distribution folders
 mkdir -p dist
 DIST="dist/dozeloc-$(cat version)"
