@@ -13,6 +13,10 @@ import re
 import webbrowser
 
 # TODO save last output
+# TODO enable automatic download of new exercises
+# TODO allow to mix italic and bold
+# TODO filter duplicate line breaks
+# TODO allow images in markdown
 
 
 class DozelocUI(ttk.Frame):
@@ -76,17 +80,39 @@ class DozelocUI(ttk.Frame):
             correct = correct and code == 0
             res += text
             res += "\n"
-        if correct:
-            self.result["background"] = "#AFA"
-        else:
-            self.result["background"] = "#FAA"
-        self.show_result(res)
+        self.save_result(ex, res, correct)
+        self.show_result(res, correct)
 
-    def show_result(self, res):
+    def save_result(self, ex, res, correct):
+        outfile = ex / "test" / "last_result.txt"
+        prefix = "# correct = {}\n".format(correct)
+        outfile.write_text(prefix + res, encoding="utf-8")
+
+    def load_result(self, ex):
+        infile = ex / "test" / "last_result.txt"
+        res = infile.read_text(encoding="utf-8")
+        lines = res.splitlines()
+        correct = None
+        if lines[0] == "# correct = True":
+            correct = True
+        elif lines[0] == "# correct = False":
+            correct = False
+        if correct is not None:
+            lines = lines[1:]
+        res = "\n".join(lines)
+        self.show_result(res, correct)
+
+    def show_result(self, res, correct=None):
         self.result.config(state="normal")
         self.result.delete("1.0", "end")
         self.result.insert("1.0", res)
         self.result.config(state="disabled")
+        if correct is None:
+            self.result["background"] = "#AAA"
+        elif correct:
+            self.result["background"] = "#AFA"
+        else:
+            self.result["background"] = "#FAA"
 
 
 class FileChooser(ttk.Frame):
