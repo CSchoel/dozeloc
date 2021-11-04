@@ -178,9 +178,11 @@ class MarkdownParser(object):
         # handle multiline code
         if rest.startswith("```"):
             self.incode = not self.incode
+            self.codeindent = indent
             return []
         if self.incode:
-            return [(md + "\n", ("code", "indent%d" % indent))]
+            indentoff = self.codeindent * len(indentation)
+            return [(md[indentoff:] + "\n", ("code", "indent%d" % self.codeindent))]
         # handle headings
         if md.startswith("#"):
             level = 0
