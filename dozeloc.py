@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import unittest
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -322,6 +323,8 @@ if __name__ == "__main__":
     settings = dozedir / "settings.json"
     settings = json.loads(settings.read_text(encoding="utf-8"))
     exdir = Path(settings["exercise_dir"])
+    if not exdir.is_absolute():
+        exdir = dozedir / exdir
     usage = textwrap.dedent("""\
     Usage: python dozeloc.py [exercise_definition_folder]
     """)
