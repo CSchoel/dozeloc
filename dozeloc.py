@@ -12,6 +12,8 @@ import textwrap
 import re
 import webbrowser
 
+# TODO save last output
+
 
 class DozelocUI(ttk.Frame):
     def __init__(self, root=None, exdir=Path(".")):
