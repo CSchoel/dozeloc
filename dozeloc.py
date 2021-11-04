@@ -112,7 +112,7 @@ class DozelocUI(ttk.Frame):
         self.result.insert("1.0", res)
         self.result.config(state="disabled")
         if correct is None:
-            self.result["background"] = "#AAA"
+            self.result["background"] = "#DDD"
         elif correct:
             self.result["background"] = "#AFA"
         else:
