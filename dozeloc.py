@@ -186,10 +186,10 @@ class MarkdownText(tkinter.scrolledtext.ScrolledText):
         current = index
         parser = MarkdownParser()
         for text, tags in parser.parse_markdown(md):
-            print(tags, text)
+            # print(tags, text)
             self.insert(current, text, tags)
             current = "insert"
-        print("\n\n")
+        # print("\n\n")
         for url in parser.hrefs:
             # NOTE: we need to bind the *current* value of url to the lambda
             # otherwise, the call will always use the value after the loop has ended
