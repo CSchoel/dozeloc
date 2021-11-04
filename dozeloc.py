@@ -11,6 +11,7 @@ import os
 import textwrap
 import re
 import webbrowser
+import json
 
 # TODO enable automatic download of new exercises
 # TODO allow to mix italic and bold
@@ -317,7 +318,10 @@ def run_unittest(test_file, solution_file):
     return (restxt, res.returncode)
 
 if __name__ == "__main__":
-    exdir = Path("../uebungen/dozentron")
+    dozedir = Path(__file__).parent
+    settings = dozedir / "settings.json"
+    settings = json.loads(settings.read_text(encoding="utf-8"))
+    exdir = Path(settings["exercise_dir"])
     usage = textwrap.dedent("""\
     Usage: python dozeloc.py [exercise_definition_folder]
     """)
