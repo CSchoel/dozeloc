@@ -12,7 +12,6 @@ import textwrap
 import re
 import webbrowser
 
-# TODO save last output
 # TODO enable automatic download of new exercises
 # TODO allow to mix italic and bold
 # TODO filter duplicate line breaks
@@ -84,6 +83,17 @@ class DozelocUI(ttk.Frame):
         self.save_result(ex, res, correct)
         self.show_result(res, correct)
 
+    def save_solution_path(self, ex, path):
+        solfile = ex / "test" / "last_solution_path.txt"
+        solfile.write_text(path, encoding="utf-8")
+
+    def load_solution_path(self, ex):
+        solfile = ex / "test" / "last_solution_path.txt"
+        if not solfile.is_file():
+            return
+        path = Path(solfile.read_text(encoding="utf-8"))
+        self.solution_chooser.set_file(path)
+
     def save_result(self, ex, res, correct):
         outfile = ex / "test" / "last_result.txt"
         prefix = "# correct = {}\n".format(correct)
@@ -140,6 +150,10 @@ class FileChooser(ttk.Frame):
         if len(fn) > 0:
             self.textvar.set(fn)
             self.initialdir = Path(fn).parent
+
+    def set_file(self, fpath):
+        self.initialdir = fpath
+        self.textvar.set(fpath)
 
 
 class MarkdownText(tkinter.scrolledtext.ScrolledText):
