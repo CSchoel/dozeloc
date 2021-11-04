@@ -68,6 +68,7 @@ class DozelocUI(ttk.Frame):
         self.exercise_text.delete("1.0", "end")
         self.exercise_text.insert_markdown("1.0", docs[0].read_text(encoding="utf-8"))
         self.exercise_text.config(state="disabled")
+        self.load_result(ex)
 
     def check(self):
         ex = self.exdir / self.exercise_chooser.get()
