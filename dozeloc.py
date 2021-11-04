@@ -90,6 +90,9 @@ class DozelocUI(ttk.Frame):
 
     def load_result(self, ex):
         infile = ex / "test" / "last_result.txt"
+        if not infile.is_file():
+            self.show_result("", None)
+            return
         res = infile.read_text(encoding="utf-8")
         lines = res.splitlines()
         correct = None
