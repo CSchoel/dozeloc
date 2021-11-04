@@ -41,6 +41,7 @@ class DozelocUI(ttk.Frame):
         self.exercise_label = ttk.Label(self, text="Exercise")
         self.solution_label = ttk.Label(self, text="Solution file")
         self.solution_chooser = FileChooser(self)
+        self.solution_chooser.textvar.trace_add("write", lambda *args: self.save_solution_path())
         self.check_button = ttk.Button(self, text="Check!", command=self.check)
         self.result = tkinter.scrolledtext.ScrolledText(self, state="disabled")
         self.result.config(padx=5, pady=5)
@@ -68,6 +69,7 @@ class DozelocUI(ttk.Frame):
         self.exercise_text.insert_markdown("1.0", docs[0].read_text(encoding="utf-8"))
         self.exercise_text.config(state="disabled")
         self.load_result(ex)
+        self.load_solution_path(ex)
 
     def check(self):
         ex = self.exdir / self.exercise_chooser.get()
@@ -83,15 +85,18 @@ class DozelocUI(ttk.Frame):
         self.save_result(ex, res, correct)
         self.show_result(res, correct)
 
-    def save_solution_path(self, ex, path):
+    def save_solution_path(self):
+        ex = self.exdir / self.exercise_chooser.get()
+        path = self.solution_chooser.textvar.get()
         solfile = ex / "test" / "last_solution_path.txt"
         solfile.write_text(path, encoding="utf-8")
 
     def load_solution_path(self, ex):
         solfile = ex / "test" / "last_solution_path.txt"
         if not solfile.is_file():
-            return
-        path = Path(solfile.read_text(encoding="utf-8"))
+            path = Path(".")
+        else:
+            path = Path(solfile.read_text(encoding="utf-8"))
         self.solution_chooser.set_file(path)
 
     def save_result(self, ex, res, correct):
