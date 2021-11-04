@@ -157,7 +157,7 @@ class FileChooser(ttk.Frame):
             self.initialdir = Path(fn).parent
 
     def set_file(self, fpath):
-        self.initialdir = fpath
+        self.initialdir = fpath.parent
         self.textvar.set(fpath)
 
 
