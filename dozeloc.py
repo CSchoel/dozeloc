@@ -31,8 +31,8 @@ class DozelocUI(ttk.Frame):
 
     def create_widgets(self):
         self.exercise_chooser = ttk.Combobox(self, values=self.exercises(self.exdir), state="readonly")
-        self.exercise_chooser.current(0)
         self.exercise_chooser.bind("<<ComboboxSelected>>", self.select)
+        self.exercise_chooser.current(0)
         self.exercise_label = ttk.Label(self, text="Exercise")
         self.solution_label = ttk.Label(self, text="Solution file")
         self.solution_chooser = FileChooser(self)
@@ -41,6 +41,7 @@ class DozelocUI(ttk.Frame):
         self.result.config(padx=5, pady=5)
         self.exercise_text = MarkdownText(self)
         self.exercise_text.config(padx=5, pady=5)
+        self.select(None)
 
         self.exercise_label.grid(row=0, column=0, sticky="W", padx=5)
         self.exercise_chooser.grid(row=0, column=1, sticky="EW", pady=5)
@@ -267,21 +268,6 @@ if __name__ == "__main__":
     usage = textwrap.dedent("""\
     Usage: python dozeloc.py [exercise_definition_folder]
     """)
-    md = textwrap.dedent("""\
-    # This is a markdown document
-
-    * It is nice
-        * It has nested lists
-    * And multiple items
-
-    ```verbatim
-    But also `code`, which should *not* be formatted further.
-    ```
-
-    This *should* be formatted in **bold** and should have [a link](http://somewhere.de).
-    """)
-    # p = MarkdownParser()
-    # print("\n".join([str(x) for x in p.parse_markdown(md)]))
     if len(sys.argv) > 1:
         if Path(sys.argv[1]).is_dir():
             exdir = sys.argv[1]
@@ -290,5 +276,4 @@ if __name__ == "__main__":
             print("{} does not exist or is not a folder".format(sys.argv[1]))
     root = tk.Tk()
     app = DozelocUI(root=root, exdir=exdir)
-    app.exercise_text.insert_markdown("1.0", md)
     app.mainloop()
