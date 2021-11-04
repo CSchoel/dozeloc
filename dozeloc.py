@@ -55,10 +55,12 @@ class DozelocUI(ttk.Frame):
         self.grid_rowconfigure(3, weight=1)
     
     def select(self, event):
+        self.exercise_text.config(state="normal")
         ex = self.exdir / self.exercise_chooser.get()
         docs = [x for x in ex.iterdir() if x.suffix == ".md"]
         self.exercise_text.delete("1.0", "end")
         self.exercise_text.insert_markdown("1.0", docs[0].read_text(encoding="utf-8"))
+        self.exercise_text.config(state="disabled")
 
     def check(self):
         ex = self.exdir / self.exercise_chooser.get()
