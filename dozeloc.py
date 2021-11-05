@@ -53,9 +53,9 @@ class DozelocUI(ttk.Frame):
         self.select(None)
 
         self.exercise_label.grid(row=0, column=0, sticky="W", padx=5)
-        self.exercise_chooser.grid(row=0, column=1, sticky="EW", pady=5)
+        self.exercise_chooser.grid(row=0, column=1, sticky="EW", pady=5, padx=5)
         self.solution_label.grid(row=1, column=0, sticky="W", padx=5)
-        self.solution_chooser.grid(row=1, column=1, sticky="EW", pady=5)
+        self.solution_chooser.grid(row=1, column=1, sticky="EW", pady=5, padx=5)
         self.check_button.grid(row=2, column=0, columnspan=2, pady=5)
         self.result.grid(row=3, column=0, columnspan=2, sticky="NESW")
         self.exercise_text.grid(row=0, column=2, rowspan=4, sticky="NESW")
