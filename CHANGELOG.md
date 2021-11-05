@@ -4,6 +4,14 @@
 
 * Current working directory is set to test directory when executing unit tests.
 
+### Changed
+
+* The solution chooser now only remembers file names that were actually used for checking a solution. If the `last_solution.txt` does not exist or contains a path to a directory and not a file, the value of the last selected exercise is kept instead.
+
+### Added
+
+* Dozeloc now remembers the last exercise that was selected in the exercise directory.
+
 ## 1.0.1
 
 ### Changed
