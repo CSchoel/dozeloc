@@ -43,7 +43,7 @@ class DozelocUI(ttk.Frame):
         self.exercise_label = ttk.Label(self, text="Exercise")
         self.solution_label = ttk.Label(self, text="Solution file")
         self.solution_chooser = FileChooser(self)
-        self.solution_chooser.textvar.trace_add("write", lambda *args: self.save_solution_path())
+        # self.solution_chooser.textvar.trace_add("write", lambda *args: self.save_solution_path())
         self.check_button = ttk.Button(self, text="Check!", command=self.check)
         self.result = tkinter.scrolledtext.ScrolledText(self, state="disabled")
         self.result.config(padx=5, pady=5)
@@ -76,6 +76,7 @@ class DozelocUI(ttk.Frame):
         self.save_current_exercise()
 
     def check(self):
+        self.save_solution_path()
         ex = self.exdir / self.exercise_chooser.get()
         test = [x for x in (ex / "test").iterdir() if x.suffix == ".py"]
         sol = Path(self.solution_chooser.textvar.get())
