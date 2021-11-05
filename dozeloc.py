@@ -336,7 +336,7 @@ def run_unittest(test_file, solution_file):
     else:
         subenv["PYTHONPATH"] += ":" + (solution_file.parent)
     # using sys.executable ensures that we use same python for internal tests as for main program
-    # TODO set cwd
+    # set cwd to test directory in order to be able to read test files
     res = subprocess.run(
         [sys.executable, test_file],
         env=subenv, timeout=60, capture_output=True,
