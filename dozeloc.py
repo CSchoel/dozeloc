@@ -72,6 +72,7 @@ class DozelocUI(ttk.Frame):
         self.exercise_text.config(state="disabled")
         self.load_result(ex)
         self.load_solution_path(ex)
+        self.save_current_exercise()
 
     def check(self):
         ex = self.exdir / self.exercise_chooser.get()
@@ -99,6 +100,7 @@ class DozelocUI(ttk.Frame):
             path = Path(".")
         else:
             path = Path(solfile.read_text(encoding="utf-8"))
+        # TODO use last active file if path is not a real file
         self.solution_chooser.set_file(path)
 
     def save_result(self, ex, res, correct):
@@ -134,6 +136,22 @@ class DozelocUI(ttk.Frame):
             self.result["background"] = "#AFA"
         else:
             self.result["background"] = "#FAA"
+
+    def save_current_exercise(self):
+        savefile = self.exdir / "last_exercise.txt"
+        savefile.write_text(self.exercise_chooser.get(), encoding="utf-8")
+
+    def load_current_exercise(self):
+        savefile = self.exdir / "last_exercise.txt"
+        if not savefile.is_file():
+            return
+        val = savefile.read_text(encoding="utf-8")
+        try:
+            idx = self.exercise_chooser["values"].index(val)
+        except ValueError:
+            return
+        self.exercise_chooser.current(idx)
+        self.select(None)
 
 
 class FileChooser(ttk.Frame):
