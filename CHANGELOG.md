@@ -1,3 +1,9 @@
+## 1.0.2
+
+### Fixed
+
+* Current working directory is set to test directory when executing unit tests.
+
 ## 1.0.1
 
 ### Changed
