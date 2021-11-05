@@ -102,8 +102,10 @@ class DozelocUI(ttk.Frame):
             path = Path(".")
         else:
             path = Path(solfile.read_text(encoding="utf-8"))
-        # TODO use last active file if path is not a real file
-        self.solution_chooser.set_file(path)
+        if path.is_file():
+            # avoid using the default "." as file
+            # instead leave value of solution_chooser at last valid solution file
+            self.solution_chooser.set_file(path)
 
     def save_result(self, ex, res, correct):
         outfile = ex / "test" / "last_result.txt"
