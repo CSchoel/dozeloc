@@ -313,7 +313,8 @@ def run_unittest(test_file, solution_file):
         subenv["PYTHONPATH"] = solution_file.parent
     else:
         subenv["PYTHONPATH"] += ":" + (solution_file.parent)
-    res = subprocess.run(["python", test_file], env=subenv, timeout=60, capture_output=True)
+    # using sys.executable ensures that we use same python for internal tests as for main program
+    res = subprocess.run([sys.executable, test_file], env=subenv, timeout=60, capture_output=True)
     restxt = "" if len(res.stdout) == 0 else "{}\n\n".format(res.stdout.decode("utf-8"))
     restxt += str(res.stderr.decode("utf-8"))
     return (restxt, res.returncode)
