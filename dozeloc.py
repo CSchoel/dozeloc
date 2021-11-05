@@ -49,6 +49,7 @@ class DozelocUI(ttk.Frame):
         self.result.config(padx=5, pady=5)
         self.exercise_text = MarkdownText(self)
         self.exercise_text.config(padx=5, pady=5)
+        self.load_current_exercise()
         self.select(None)
 
         self.exercise_label.grid(row=0, column=0, sticky="W", padx=5)
