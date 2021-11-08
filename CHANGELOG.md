@@ -1,3 +1,9 @@
+## 1.0.3
+
+### Fixed
+
+* `run_unittest` now enforces absolute paths to ensure that `cwd` parameter does not lead to missing test or solution files.
+
 ## 1.0.2
 
 ### Fixed
