@@ -330,6 +330,8 @@ class MarkdownParser(object):
 
 
 def run_unittest(test_file, solution_file):
+    test_file = test_file.absolute()
+    solution_file = solution_file.absolute()
     subenv = os.environ.copy()
     if "PYTHONPATH" not in subenv:
         subenv["PYTHONPATH"] = solution_file.parent
