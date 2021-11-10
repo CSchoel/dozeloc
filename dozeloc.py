@@ -388,8 +388,9 @@ def tk_version_at_least(root, comp=(8,6,0)):
     v = root.tk.call("info", "patchlevel")
     m = re.match(r'^(\d+)\.(\d+)\.(\d+).*', v)
     if m is not None:
+        actual = tuple([int(m.group(i)) for i in range(1,4)])
         # >= on tuples compares hierarchically with most significant value on the left
-        return (re.group(1), re.group(2), re.group(3)) >= comp
+        return actual >= comp
     else:
         # avoid unnecessary failures due to future changes in version format
         # => assume anything unknown is newer than anything tested with this function
