@@ -1,3 +1,14 @@
+## 1.0.4
+
+### Fixed
+
+* Copy and paste from test output and exercise text is now possible on all platforms
+* Selection in markdown widget is now shown above gray background for code.
+
+### Changed
+
+* Scroll bars of output and exercise text are now themed widgets from `ttk`.
+
 ## 1.0.3
 
 ### Fixed
