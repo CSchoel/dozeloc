@@ -4,7 +4,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 import tkinter.filedialog as tkfd
 import tkinter.font as font
-import tkinter.scrolledtext
+import tkinter.constants as tkconst
 from pathlib import Path
 import sys
 import subprocess
@@ -19,6 +19,35 @@ import warnings
 # TODO allow to mix italic and bold
 # TODO filter duplicate line breaks
 # TODO allow images in markdown
+
+
+class ScrolledText(tk.Text):
+    """
+    Code is copied from tkinter.scrolledtext, but uses ttk widgets
+    instead of normal tk widgets.
+    """
+    def __init__(self, master=None, **kw):
+        self.frame = ttk.Frame(master)
+        self.vbar = ttk.Scrollbar(self.frame)
+        self.vbar.pack(side=tkconst.RIGHT, fill=tk.Y)
+
+        kw.update({'yscrollcommand': self.vbar.set})
+        tk.Text.__init__(self, self.frame, **kw)
+        self.pack(side=tkconst.LEFT, fill=tkconst.BOTH, expand=True)
+        self.vbar['command'] = self.yview
+
+        # Copy geometry methods of self.frame without overriding Text
+        # methods -- hack!
+        text_meths = vars(tk.Text).keys()
+        methods = vars(tk.Pack).keys() | vars(tk.Grid).keys() | vars(tk.Place).keys()
+        methods = methods.difference(text_meths)
+
+        for m in methods:
+            if m[0] != '_' and m != 'config' and m != 'configure':
+                setattr(self, m, getattr(self.frame, m))
+
+    def __str__(self):
+        return str(self.frame)
 
 
 class DozelocUI(ttk.Frame):
@@ -46,7 +75,7 @@ class DozelocUI(ttk.Frame):
         self.solution_chooser = FileChooser(self)
         # self.solution_chooser.textvar.trace_add("write", lambda *args: self.save_solution_path())
         self.check_button = ttk.Button(self, text="Check!", command=self.check)
-        self.result = tkinter.scrolledtext.ScrolledText(self, state="disabled")
+        self.result = ScrolledText(self, state="disabled")
         self.result.config(padx=5, pady=5)
         self.exercise_text = MarkdownText(self)
         self.exercise_text.config(padx=5, pady=5)
@@ -192,7 +221,7 @@ class FileChooser(ttk.Frame):
         self.textvar.set(fpath)
 
 
-class MarkdownText(tkinter.scrolledtext.ScrolledText):
+class MarkdownText(ScrolledText):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.config(wrap="word")
