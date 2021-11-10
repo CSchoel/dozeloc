@@ -13,6 +13,7 @@ import textwrap
 import re
 import webbrowser
 import json
+import warnings
 
 # TODO enable automatic download of new exercises
 # TODO allow to mix italic and bold
@@ -51,6 +52,12 @@ class DozelocUI(ttk.Frame):
         self.exercise_text.config(padx=5, pady=5)
         self.load_current_exercise()
         self.select(None)
+        if not tk_version_at_least(self.root, (8, 6, 11)):
+            # ensure that disabled text widgets also get focus on tk <= 8.6.11
+            # see: https://stackoverflow.com/a/10817982
+            # see: https://sourceforge.net/projects/tcl/files/Tcl/8.6.11/tcltk-release-notes-8.6.11.txt/view
+            self.result.bind("<Button-1>", lambda event: self.result.focus_set())
+            self.exercise_text.bind("<Button-1>", lambda event: self.exercise_text.focus_set())
 
         self.exercise_label.grid(row=0, column=0, sticky="W", padx=5)
         self.exercise_chooser.grid(row=0, column=1, sticky="EW", pady=5, padx=5)
@@ -347,6 +354,22 @@ def run_unittest(test_file, solution_file):
     restxt = "" if len(res.stdout) == 0 else "{}\n\n".format(res.stdout.decode("utf-8"))
     restxt += str(res.stderr.decode("utf-8"))
     return (restxt, res.returncode)
+
+def tk_version_at_least(root, comp=(8,6,0)):
+    v = root.tk.call("info", "patchlevel")
+    m = re.match(r'^(\d+)\.(\d+)\.(\d+).*', v)
+    if m is not None:
+        # >= on tuples compares hierarchically with most significant value on the left
+        return (re.group(1), re.group(2), re.group(3)) >= comp
+    else:
+        # avoid unnecessary failures due to future changes in version format
+        # => assume anything unknown is newer than anything tested with this function
+        warnings.warn(
+            "Did not understand tk version {}, assuming it is larger than {}".format(
+                v, ".".join(comp)
+            )
+        )
+        return True
 
 if __name__ == "__main__":
     dozedir = Path(__file__).parent
