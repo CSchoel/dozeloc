@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 import unittest
 import tkinter as tk
 import tkinter.ttk as ttk
