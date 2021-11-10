@@ -241,6 +241,7 @@ class MarkdownText(ScrolledText):
         self.tag_config("code", background="#DDD")
         for i in range(1, 10):
             self.tag_config("indent{}".format(i), lmargin1=20*i, lmargin2=20*i)
+        self.tag_raise("sel", "code")
 
     def insert_markdown(self, index, md):
         current = index
