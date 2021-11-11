@@ -379,10 +379,10 @@ def run_unittest(test_file, solution_file):
     res = subprocess.run(
         [sys.executable, test_file],
         env=subenv, timeout=60, capture_output=True,
-        cwd=test_file.parent
+        cwd=test_file.parent, text=True
     )
-    restxt = "" if len(res.stdout) == 0 else "{}\n\n".format(res.stdout.decode("utf-8"))
-    restxt += str(res.stderr.decode("utf-8"))
+    restxt = "" if len(res.stdout) == 0 else "{}\n\n".format(res.stdout)
+    restxt += str(res.stderr)
     return (restxt, res.returncode)
 
 def tk_version_at_least(root, comp=(8,6,0)):
