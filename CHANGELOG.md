@@ -1,3 +1,10 @@
+## 1.0.5
+
+### Fixed
+
+* If PYTHONPATH did not exist, Dozeloc tried to write a Path object into the environment dict instead of a string.
+* On Windows Dozeloc did not work, because it assumed that stdout and stderr used utf-8 as encoding.
+
 ## 1.0.4
 
 ### Fixed
