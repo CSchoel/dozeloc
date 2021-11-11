@@ -371,7 +371,7 @@ def run_unittest(test_file, solution_file):
     solution_file = solution_file.absolute()
     subenv = os.environ.copy()
     if "PYTHONPATH" not in subenv:
-        subenv["PYTHONPATH"] = solution_file.parent
+        subenv["PYTHONPATH"] = str(solution_file.parent)
     else:
         subenv["PYTHONPATH"] += ":" + (solution_file.parent)
     # using sys.executable ensures that we use same python for internal tests as for main program
