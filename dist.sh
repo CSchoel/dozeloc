@@ -7,7 +7,10 @@ rm -rf dist/
 
 # create distribution folders
 mkdir -p dist
-DIST="dist/dozeloc-$(cat version)"
+EXCOUNT=$(find ../uebungen/dozentron -maxdepth 1 -type d -regex '.*[0-9]+_[0-9+].*' | grep -c /)
+DIRVERSION="dozeloc-$(cat version)+${EXCOUNT}"
+DIST="dist/${DIRVERSION}"
+
 mkdir -p $DIST
 
 # copy main files
@@ -25,4 +28,4 @@ find $DIST/exercises/ -type d -name "src" -exec rm -rf {} \;
 
 # zip distribution folder contents
 cd dist
-zip -r "dozeloc-$(cat ../version).zip" "dozeloc-$(cat ../version)/"
+zip -r "${DIRVERSION}.zip" "${DIRVERSION}/"
