@@ -15,6 +15,7 @@ import webbrowser
 import json
 import warnings
 
+# TODO allow to choose themes through settings file (default=None)
 # TODO enable automatic download of new exercises
 # TODO allow to mix italic and bold
 # TODO filter duplicate line breaks
