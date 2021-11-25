@@ -1,3 +1,9 @@
+## 1.0.6
+
+### Added
+
+* Settings option `ttk_theme` to either let python choose the theme (`"auto"`) or manually enter a theme name to be used.
+
 ## 1.0.5
 
 ### Fixed
