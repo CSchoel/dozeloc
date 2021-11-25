@@ -1,3 +1,4 @@
 {
-    "exercise_dir": "exercises"
+    "exercise_dir": "exercises",
+    "ttk_theme": "auto"
 }

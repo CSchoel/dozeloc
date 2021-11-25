@@ -1,3 +1,4 @@
 {
-    "exercise_dir": "../uebungen/dozentron"
+    "exercise_dir": "../uebungen/dozentron",
+    "ttk_theme": "auto"
 }

@@ -403,6 +403,16 @@ def tk_version_at_least(root, comp=(8,6,0)):
         )
         return True
 
+def set_theme(root, settings):
+    sty = ttk.Style(root)
+    theme = settings.get("ttk_theme", "default")
+    if theme not in ["", "auto"]:
+        try:
+            sty.theme_use(theme)
+        except tk.TclError:
+            themes = sty.theme_names()
+            print(f"TTK theme {theme} cannot be used. Available options are {', '.join(themes)}.")
+
 if __name__ == "__main__":
     dozedir = Path(__file__).parent
     settings = dozedir / "settings.json"
@@ -420,5 +430,6 @@ if __name__ == "__main__":
             print(usage)
             print("{} does not exist or is not a folder".format(sys.argv[1]))
     root = tk.Tk()
+    set_theme(root, settings)
     app = DozelocUI(root=root, exdir=exdir)
     app.mainloop()
