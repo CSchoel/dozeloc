@@ -24,7 +24,9 @@ find ../uebungen/dozentron -maxdepth 1 -type d -regex '.*[0-9]+_[0-9+].*' -exec 
 # exclude last_xyz.txt setting files
 find $DIST/exercises/ -name "last_*.txt" -exec rm {} \;
 # remove solution files
-find $DIST/exercises/ -type d -name "src" -exec rm -rf {} \;
+# NOTE: -depth is needed to switch to depth-first traversal,
+# which avoids warnings due to not being able to traverse the deleted directories
+find $DIST/exercises/  -depth -type d -name "src" -exec rm -rf {} \;
 
 # zip distribution folder contents
 cd dist
