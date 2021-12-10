@@ -9,4 +9,5 @@ find "../uebungen/dozentron" -name "last_solution_path.txt" -exec rm {} \;
 find "../uebungen/dozentron" -name "__pycache__" -exec rm -rf {} \;
 
 # delete empty directories
-find "../uebungen/dozentron" -type d -empty -exec rmdir {} \;
+# NOTE: "-exec rmdir {} \;" would issue warnings due to BFS-traversal
+find "../uebungen/dozentron" -type d -empty -delete
