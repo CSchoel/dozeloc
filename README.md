@@ -35,6 +35,14 @@ The unit test files should contain unit tests written with the module `unittest`
 
 I'm working on that over at [exercise-heap](https://github.com/CSchoel/exercise-heap). :wink:
 
+Currently you should be able to do the following to get started:
+
+```bash
+git clone https://github.com/CSchoel/exercise-heap.git
+python exercise-heap/scripts/export/export_dozeloc.py ./exercises
+python dozeloc.py exercises
+```
+
 ## Known issues
 
 Dozeloc does not require any packages outside the Python standard library.
