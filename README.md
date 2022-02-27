@@ -11,7 +11,7 @@ python dozeloc.py path/to/exercise/folder
 
 This will bring up the following GUI:
 
-![window with exercise selection and test result on the left and exercise text on the right](screenshot.png)
+![window with exercise selection and test result on the left and exercise text on the right](dozeloc.gif)
 
 ## Structure of exercise folders
 
