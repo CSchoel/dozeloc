@@ -272,6 +272,7 @@ class MarkdownParser(object):
         self.indentation = indentation
         self.incode = False
         self.hrefs = []
+        self.persistent_tags = []
 
     def parse_markdown(self, md):
         result = []
