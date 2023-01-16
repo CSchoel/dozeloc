@@ -100,7 +100,7 @@ class DozelocUI(ttk.Frame):
         self.grid_columnconfigure(1, weight=1)
         self.grid_columnconfigure(2, weight=1)
         self.grid_rowconfigure(3, weight=1)
-    
+
     def select(self, event):
         self.exercise_text.config(state="normal")
         ex = self.exdir / self.exercise_chooser.get()
@@ -375,7 +375,7 @@ def run_unittest(test_file, solution_file):
     if "PYTHONPATH" not in subenv:
         subenv["PYTHONPATH"] = str(solution_file.parent)
     else:
-        subenv["PYTHONPATH"] += ":" + (solution_file.parent)
+        subenv["PYTHONPATH"] += ":" + str(solution_file.parent)
     # using sys.executable ensures that we use same python for internal tests as for main program
     # set cwd to test directory in order to be able to read test files
     res = subprocess.run(
