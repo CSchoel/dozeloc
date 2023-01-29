@@ -24,8 +24,6 @@ jobs:
           link-pattern: '^\\[${RELEASE_VERSION#v}\\]:'
       - name: Create archive
         run: ./dist.sh
-      - run: ls
-      - run: ls dist
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
