@@ -1,3 +1,13 @@
+## [1.1.0]
+
+### Added
+
+* CD pipeline that automatically exports English exercises from exercise-heap and builds a zip file of the project.
+
+### Changed
+
+* `dist.sh` now searches for exercises in a folder called `exercises` and expects naming scheme according to exercise-heap export script.
+
 ## [1.0.6]
 
 ### Added
@@ -53,6 +63,7 @@
 
 First version to be tested by tutors
 
+[1.1.0]: https://github.com/CSchoel/dozeloc/compare/v1.0.6..v1.1.0
 [1.0.6]: https://github.com/CSchoel/dozeloc/compare/v1.0.5..v1.0.6
 [1.0.5]: https://github.com/CSchoel/dozeloc/compare/v1.0.4..v1.0.5
 [1.0.4]: https://github.com/CSchoel/dozeloc/compare/v1.0.3..v1.0.4
