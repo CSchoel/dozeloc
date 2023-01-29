@@ -31,4 +31,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >
           gh release create -d ${GITHUB_REF#refs/*/} -F RELEASE.md -t "Dozeloc version $RELEASE_VERSION"
-          "dist/dozeloc-$RELEASE_VERSION*.zip"
+          dist/dozeloc-$RELEASE_VERSION*.zip
