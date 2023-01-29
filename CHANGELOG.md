@@ -8,6 +8,10 @@
 
 * `dist.sh` now searches for exercises in a folder called `exercises` and expects naming scheme according to exercise-heap export script.
 
+### Fixed
+
+* Type error upon adding a Path to a string when PYTHONPATH was already set.
+
 ## [1.0.6]
 
 ### Added
