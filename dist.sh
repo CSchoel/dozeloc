@@ -33,3 +33,4 @@ find $DIST/exercises/  -depth -type d -name "src" -exec rm -rf {} \;
 # zip distribution folder contents
 cd dist
 zip -r "${DIRVERSION}.zip" "${DIRVERSION}/"
+cd ..
