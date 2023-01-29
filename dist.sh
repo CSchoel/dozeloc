@@ -7,7 +7,9 @@ rm -rf dist/
 
 # create distribution folders
 mkdir -p dist
-EXCOUNT=$(find ../uebungen/dozentron -maxdepth 1 -type d -regex '.*[0-9]+_[0-9+].*' | grep -c /)
+EXERCISE_SOURCE=./exercises
+EXERCISE_REGEX='.*/[0-9]+\_.*'
+EXCOUNT=$(find "${EXERCISE_SOURCE}" -maxdepth 1 -type d -regex "${EXERCISE_REGEX}" | grep -c /)
 DIRVERSION="dozeloc-$(cat version)+${EXCOUNT}"
 DIST="dist/${DIRVERSION}"
 
@@ -20,7 +22,7 @@ cp default_settings.json $DIST/settings.json
 
 # copy all exercise directories
 mkdir -p $DIST/exercises
-find ../uebungen/dozentron -maxdepth 1 -type d -regex '.*[0-9]+_[0-9+].*' -exec cp -r {} $DIST/exercises/ \;
+find "${EXERCISE_SOURCE}" -maxdepth 1 -type d -regex "${EXERCISE_REGEX}" -exec cp -r {} $DIST/exercises/ \;
 # exclude last_xyz.txt setting files
 find $DIST/exercises/ -name "last_*.txt" -exec rm {} \;
 # remove solution files
