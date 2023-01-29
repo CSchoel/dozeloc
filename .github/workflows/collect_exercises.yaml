@@ -1,0 +1,33 @@
+name: Deploy with exercises
+
+on:
+  push:
+    tags: [v*]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+      - run: git clone https://github.com/CSchoel/exercise-heap.git
+      - run: pip install ./exercise-heap
+      - run: exercise-heap/scripts/export/export_dozeloc.py -l en-US -o exercises
+      - name: Extract changelog for release version
+        # NOTE: As a side effect this action also sets the RELEASE_VERSION
+        # variable containing the tag name without leading "v"
+        uses: CSchoel/release-notes-from-changelog@v1
+        with:
+          begin-pattern: '/^## \\[${RELEASE_VERSION#v}\\]/'
+          link-pattern: '^\\[${RELEASE_VERSION#v}\\]:'
+      - name: Create archive
+        run: |
+          zip -r dozeloc-${RELEASE_VERSION}.zip . -x \*.git/\* \*.git
+      - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          gh release create -d ${GITHUB_REF#refs/*/} -F RELEASE.md -t "Dozeloc version $RELEASE_VERSION"
+          shm-${{ env.RELEASE_VERSION }}.zip
