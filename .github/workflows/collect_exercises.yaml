@@ -12,7 +12,7 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: "3.x"
-      - run: git clone https://github.com/CSchoel/exercise-heap.git
+      - run: git clone --depth 1 --branch v$(cat exercise_heap_version) https://github.com/CSchoel/exercise-heap.git
       - run: pip install ./exercise-heap
       - run: exercise-heap/scripts/export/export_dozeloc.py -l en-US -o exercises
       - name: Extract changelog for release version
@@ -23,11 +23,10 @@ jobs:
           begin-pattern: '/^## \\[${RELEASE_VERSION#v}\\]/'
           link-pattern: '^\\[${RELEASE_VERSION#v}\\]:'
       - name: Create archive
-        run: |
-          zip -r dozeloc-${RELEASE_VERSION}.zip . -x \*.git/\* \*.git
+        run: ./dist.sh
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >
           gh release create -d ${GITHUB_REF#refs/*/} -F RELEASE.md -t "Dozeloc version $RELEASE_VERSION"
-          shm-${{ env.RELEASE_VERSION }}.zip
+          "dist/dozeloc-$RELEASE_VERSION*.zip"
