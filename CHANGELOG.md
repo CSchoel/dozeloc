@@ -1,3 +1,13 @@
+## [1.1.1]
+
+### Added
+
+* ChatGPT-generated exercises from new exercise-heap version.
+
+### Fixed
+
+* Ordered lists in Markdown were crashing the parser.
+
 ## [1.1.0]
 
 ### Added
