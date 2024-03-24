@@ -27,15 +27,16 @@ class ScrolledText(tk.Text):
     Code is copied from tkinter.scrolledtext, but uses ttk widgets
     instead of normal tk widgets.
     """
+
     def __init__(self, master=None, **kw):
         self.frame = ttk.Frame(master)
         self.vbar = ttk.Scrollbar(self.frame)
         self.vbar.pack(side=tkconst.RIGHT, fill=tk.Y)
 
-        kw.update({'yscrollcommand': self.vbar.set})
+        kw.update({"yscrollcommand": self.vbar.set})
         tk.Text.__init__(self, self.frame, **kw)
         self.pack(side=tkconst.LEFT, fill=tkconst.BOTH, expand=True)
-        self.vbar['command'] = self.yview
+        self.vbar["command"] = self.yview
 
         # Copy geometry methods of self.frame without overriding Text
         # methods -- hack!
@@ -44,7 +45,7 @@ class ScrolledText(tk.Text):
         methods = methods.difference(text_meths)
 
         for m in methods:
-            if m[0] != '_' and m != 'config' and m != 'configure':
+            if m[0] != "_" and m != "config" and m != "configure":
                 setattr(self, m, getattr(self.frame, m))
 
     def __str__(self):
@@ -68,7 +69,9 @@ class DozelocUI(ttk.Frame):
         return sorted([x.name for x in exercises])
 
     def create_widgets(self):
-        self.exercise_chooser = ttk.Combobox(self, values=self.exercises(self.exdir), state="readonly")
+        self.exercise_chooser = ttk.Combobox(
+            self, values=self.exercises(self.exdir), state="readonly"
+        )
         self.exercise_chooser.bind("<<ComboboxSelected>>", self.select)
         self.exercise_chooser.current(0)
         self.exercise_label = ttk.Label(self, text="Exercise")
@@ -87,7 +90,9 @@ class DozelocUI(ttk.Frame):
             # see: https://stackoverflow.com/a/10817982
             # see: https://sourceforge.net/projects/tcl/files/Tcl/8.6.11/tcltk-release-notes-8.6.11.txt/view
             self.result.bind("<Button-1>", lambda event: self.result.focus_set())
-            self.exercise_text.bind("<Button-1>", lambda event: self.exercise_text.focus_set())
+            self.exercise_text.bind(
+                "<Button-1>", lambda event: self.exercise_text.focus_set()
+            )
 
         self.exercise_label.grid(row=0, column=0, sticky="W", padx=5)
         self.exercise_chooser.grid(row=0, column=1, sticky="EW", pady=5, padx=5)
@@ -212,7 +217,11 @@ class FileChooser(ttk.Frame):
         self.columnconfigure(1, weight=0)
 
     def browse(self):
-        fn = tkfd.askopenfilename(title="Open file", filetypes=[("python code", "*.py")], initialdir=self.initialdir)
+        fn = tkfd.askopenfilename(
+            title="Open file",
+            filetypes=[("python code", "*.py")],
+            initialdir=self.initialdir,
+        )
         if len(fn) > 0:
             self.textvar.set(fn)
             self.initialdir = Path(fn).parent
@@ -227,21 +236,21 @@ class MarkdownText(ScrolledText):
         super().__init__(*args, **kwargs)
         self.config(wrap="word")
         self.fonts = {}
-        for x in ['em', 'strong', 'code']:
+        for x in ["em", "strong", "code"]:
             self.fonts[x] = font.nametofont("TkDefaultFont").copy()
-        self.fonts['em'].config(slant="italic")
-        self.fonts['strong'].config(weight="bold")
-        self.fonts['code'].config(family=font.nametofont("TkFixedFont")["family"])
+        self.fonts["em"].config(slant="italic")
+        self.fonts["strong"].config(weight="bold")
+        self.fonts["code"].config(family=font.nametofont("TkFixedFont")["family"])
         for l in range(1, 5):
             f = font.nametofont(self["font"]).copy()
             # h4 = 1.33, h3 = 1.66, h2 = 1.99, h1 = 2.33
-            f.config(size=int(round(f["size"] * (8-l)/3)))
+            f.config(size=int(round(f["size"] * (8 - l) / 3)))
             self.fonts["h{}".format(l)] = f
-        for x in ['em', 'strong', 'code'] + ["h{}".format(l) for l in range(1,5)]:
+        for x in ["em", "strong", "code"] + ["h{}".format(l) for l in range(1, 5)]:
             self.tag_config(x, font=self.fonts[x])
         self.tag_config("code", background="#DDD")
         for i in range(1, 10):
-            self.tag_config("indent{}".format(i), lmargin1=20*i, lmargin2=20*i)
+            self.tag_config("indent{}".format(i), lmargin1=20 * i, lmargin2=20 * i)
         self.tag_raise("sel", "code")
 
     def insert_markdown(self, index, md):
@@ -255,7 +264,9 @@ class MarkdownText(ScrolledText):
         for url in parser.hrefs:
             # NOTE: we need to bind the *current* value of url to the lambda
             # otherwise, the call will always use the value after the loop has ended
-            self.tag_bind("href={}".format(url), "<1>", lambda ev, u=url: self.visit_url(u))
+            self.tag_bind(
+                "href={}".format(url), "<1>", lambda ev, u=url: self.visit_url(u)
+            )
             self.tag_config("href={}".format(url), foreground="#33E", underline=True)
 
     def set_markdown_content(self, md):
@@ -285,7 +296,7 @@ class MarkdownParser(object):
         # count indentation level
         indent = 0
         while rest.startswith(indentation):
-            rest = rest[len(indentation):]
+            rest = rest[len(indentation) :]
             indent += 1
         # handle multiline code
         if rest.startswith("```"):
@@ -301,7 +312,7 @@ class MarkdownParser(object):
             self.persistent_tags = []
             while md[level] == "#":
                 level += 1
-            result = self.parse_inline(md[level+1:], tags=["h%d" % level])
+            result = self.parse_inline(md[level + 1 :], tags=["h%d" % level])
             self.persistent_tags = []
             return result
         # handle paragraph break
@@ -314,7 +325,7 @@ class MarkdownParser(object):
         line_tags.append("indent%d" % indent)
         # handle codes at start of line
         while re.search(r"^(\* |\- |\+ |\> |\d+\. )", rest) is not None:
-            if rest[0] in ['*', '-', '+']:
+            if rest[0] in ["*", "-", "+"]:
                 # handle unordered lists
                 line_tags.append("ul")
                 rest = rest[2:]
@@ -326,10 +337,13 @@ class MarkdownParser(object):
                 rest = rest[2:]
             else:
                 # handle ordered lists
-                number = re.find(r"^\d+").group(0)
+                number = re.search(r"^(\d+)\. ", rest)
+                if number is None:
+                    raise ValueError("Unexpected error.")
+                number = number.group(1)
                 line_tags.append("ol")
-                result.append(("{}. ".format(number), tuple(line_tags)))
-                rest = rest[len(number)+2:]
+                result.append(("\n{}. ".format(number), tuple(line_tags)))
+                rest = rest[len(number) + 2 :]
         result.extend(self.parse_inline(rest, tags=line_tags))
         result.append((" ", tuple(line_tags)))
         return result
@@ -361,7 +375,9 @@ class MarkdownParser(object):
                         # hyperlink
                         hl = "href={}".format(match.group(3))
                         self.hrefs.append(match.group(3))
-                        result.append((match.group(2), tuple(tags + self.persistent_tags + [hl])))
+                        result.append(
+                            (match.group(2), tuple(tags + self.persistent_tags + [hl]))
+                        )
                 else:
                     # add everything else as normal text
                     result.append((t, tuple(tags + self.persistent_tags)))
@@ -380,18 +396,22 @@ def run_unittest(test_file, solution_file):
     # set cwd to test directory in order to be able to read test files
     res = subprocess.run(
         [sys.executable, test_file],
-        env=subenv, timeout=60, capture_output=True,
-        cwd=test_file.parent, text=True
+        env=subenv,
+        timeout=60,
+        capture_output=True,
+        cwd=test_file.parent,
+        text=True,
     )
     restxt = "" if len(res.stdout) == 0 else "{}\n\n".format(res.stdout)
     restxt += str(res.stderr)
     return (restxt, res.returncode)
 
-def tk_version_at_least(root, comp=(8,6,0)):
+
+def tk_version_at_least(root, comp=(8, 6, 0)):
     v = root.tk.call("info", "patchlevel")
-    m = re.match(r'^(\d+)\.(\d+)\.(\d+).*', v)
+    m = re.match(r"^(\d+)\.(\d+)\.(\d+).*", v)
     if m is not None:
-        actual = tuple([int(m.group(i)) for i in range(1,4)])
+        actual = tuple([int(m.group(i)) for i in range(1, 4)])
         # >= on tuples compares hierarchically with most significant value on the left
         return actual >= comp
     else:
@@ -404,6 +424,7 @@ def tk_version_at_least(root, comp=(8,6,0)):
         )
         return True
 
+
 def set_theme(root, settings):
     sty = ttk.Style(root)
     theme = settings.get("ttk_theme", "default")
@@ -412,7 +433,10 @@ def set_theme(root, settings):
             sty.theme_use(theme)
         except tk.TclError:
             themes = sty.theme_names()
-            print(f"TTK theme {theme} cannot be used. Available options are {', '.join(themes)}.")
+            print(
+                f"TTK theme {theme} cannot be used. Available options are {', '.join(themes)}."
+            )
+
 
 if __name__ == "__main__":
     dozedir = Path(__file__).parent
@@ -421,9 +445,11 @@ if __name__ == "__main__":
     exdir = Path(settings["exercise_dir"])
     if not exdir.is_absolute():
         exdir = dozedir / exdir
-    usage = textwrap.dedent("""\
+    usage = textwrap.dedent(
+        """\
     Usage: python dozeloc.py [exercise_definition_folder]
-    """)
+    """
+    )
     if len(sys.argv) > 1:
         if Path(sys.argv[1]).is_dir():
             exdir = sys.argv[1]
